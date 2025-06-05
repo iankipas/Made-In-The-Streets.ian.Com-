@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MITS | Made In The Streets</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #13491c;       /* MITS accent color - now more vibrant */
+      --primary-dark: #15462f;
+      --dark: #121212;         /* Darker background */
+      --darker: #0a0a0a;       /* Even darker elements */
+      --light: #e0e0e0;        /* Light text */
+      --gray: #888;            /* Gray elements */
+      --white: #1e1e1e;       /* "White" elements now dark */
+      --card-bg: #252525;     /* Card background */
+      --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --body-bg: #121212;
+    }
+
+    /* Light mode variables */
+    [data-theme="light"] {
+      --dark: #f5f5f5;
+      --darker: #e0e0e0;
+      --light: #333;
+      --white: #fff;
+      --card-bg: #fff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --body-bg: #f5f5f5;
+    }
+
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--body-bg);
+      color: var(--light);
+      line-height: 1.6;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* Color changing animation */
+    @keyframes colorChange {
+      0% { background-color: var(--body-bg); }
+      25% { background-color: var(--darker); }
+      50% { background-color: var(--dark); }
+      75% { background-color: var(--darker); }
+      100% { background-color: var(--body-bg); }
+    }
+
+    body {
+      animation: colorChange 30s infinite;
+    }
+
+    /* Header */
+    header {
+      background: var(--darker);
+      padding: 1.5rem 5%;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] header {
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-shadow: 0 0 10px rgba(255,51,102,0.3);
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      text-shadow: 0 0 15px rgba(255,51,102,0.5);
+      transform: scale(1.02);
+    }
+
+    .logo-icon {
+      font-size: 1.8rem;
+    }
+
+    /* Theme toggle switch */
+    .theme-switch-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--card-bg);
+      transition: .4s;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    [data-theme="light"] .slider {
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 3px;
+      background-color: var(--primary);
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--card-bg);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(28px);
+      background-color: var(--primary);
+    }
+
+    .slider i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+    }
+
+    .fa-moon {
+      left: 8px;
+      color: var(--light);
+    }
+
+    .fa-sun {
+      right: 8px;
+      color: var(--light);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--light);
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 5%;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                  url('images/af2b01_70ee54cdb2c54aa1af23969f78a77b85~mv2.avif') center/cover;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+                  rgba(255,51,102,0.1) 0%, 
+                  rgba(204,0,68,0.1) 50%, 
+                  rgba(255,51,102,0.1) 100%);
+      z-index: 0;
+      animation: gradientShift 15s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      animation: textGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlow {
+      from { text-shadow: 0 0 5px rgba(4, 26, 14, 0.5); }
+      to { text-shadow: 0 0 15px rgba(4, 47, 9, 0.8); }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin-bottom: 2rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      z-index: 1;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: var(--primary-dark);
+      transition: width 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn-primary:hover::before {
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(230,0,35,0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      z-index: 1;
+    }
+
+    .btn-outline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: white;
+      transition: width 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn-outline:hover::before {
+      width: 100%;
+    }
+
+    .btn-outline:hover {
+      color: var(--primary);
+    }
+
+    /* About Section */
+    .about {
+      padding: 5rem 10%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--darker);
+      position: relative;
+    }
+
+    .about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+                  rgba(255,51,102,0.05) 0%, 
+                  rgba(204,0,68,0.05) 50%, 
+                  rgba(255,51,102,0.05) 100%);
+      z-index: 0;
+    }
+
+    .about-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-img {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    .about-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .skill-tag {
+      background: rgba(255,51,102,0.2);
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,51,102,0.3);
+      transition: var(--transition);
+    }
+
+    .skill-tag:hover {
+      background: rgba(255,51,102,0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Programs Section */
+    .programs {
+      padding: 5rem 10%;
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .programs::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, 
+                  rgba(255,51,102,0.05) 0%, 
+                  transparent 70%);
+      z-index: 0;
+      animation: pulse 15s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.1; }
+      100% { transform: scale(1.1); opacity: 0.2; }
+    }
+
+    .programs-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .program-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    [data-theme="light"] .program-card {
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .program-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .program-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+
+    .program-card:hover::before {
+      height: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    }
+
+    .program-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      filter: grayscale(20%);
+      transition: var(--transition);
+    }
+
+    .program-card:hover img {
+      filter: grayscale(0%);
+    }
+
+    .program-content {
+      padding: 1.5rem;
+    }
+
+    .program-content h3 {
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .program-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .program-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .program-link:hover::after {
+      width: 100%;
+    }
+
+    /* Portfolio Section */
+    .portfolio {
+      padding: 5rem 5%;
+      background: var(--darker);
+      position: relative;
+    }
+
+    .portfolio::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+                  transparent 70%, 
+                  rgba(255,51,102,0.05) 100%);
+      z-index: 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title span {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .section-title span::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .section-title:hover span::after {
+      transform: scaleX(1);
+    }
+
+    .grid {
+      columns: 3 300px;
+      column-gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    [data-theme="light"] .portfolio-item {
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+
+    .portfolio-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: var(--transition);
+    }
+
+    .portfolio-item:hover .portfolio-img {
+      transform: scale(1.05);
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 1.5rem;
+      color: white;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 5rem 10%;
+      background: var(--dark);
+      position: relative;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, 
+                  rgba(255,51,102,0.1) 0%, 
+                  transparent 50%);
+      z-index: 0;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    [data-theme="light"] .contact-form {
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--light);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      font-family: inherit;
+      color: var(--light);
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] .form-group input,
+    [data-theme="light"] .form-group textarea,
+    [data-theme="light"] .form-group select {
+      background: rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255,51,102,0.2);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* Newsletter Section */
+    .newsletter {
+      padding: 3rem 10%;
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+                  rgba(255,255,255,0.1) 0%, 
+                  transparent 50%, 
+                  rgba(255,255,255,0.1) 100%);
+      z-index: 0;
+      animation: gradientShift 15s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    .newsletter-content {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .newsletter h2 {
+      margin-bottom: 1rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .newsletter p {
+      margin-bottom: 1.5rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      border: none;
+      border-radius: 50px;
+      font-family: inherit;
+    }
+
+    .newsletter-form button {
+      padding: 0.8rem 1.8rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--darker);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-form button:hover {
+      background: var(--dark);
+      transform: translateY(-2px);
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 4rem 10%;
+      background: var(--darker);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      transition: var(--transition);
+    }
+
+    [data-theme="light"] .stat-item {
+      background: rgba(0,0,0,0.05);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--light);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--darker);
+      color: var(--light);
+      padding: 3rem 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    [data-theme="light"] footer {
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, 
+                  rgba(255,51,102,0.05) 0%, 
+                  transparent 100%);
+      z-index: 0;
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    .footer-column h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-column a {
+      color: var(--light);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-column a:hover {
+      color: var(--primary);
+    }
+
+    .logo {
+      margin-bottom: 1rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .social-links a {
+      color: var(--light);
+      font-size: 1.5rem;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+
+    [data-theme="light"] .social-links a {
+      background: rgba(0,0,0,0.05);
+    }
+
+    .social-links a:hover {
+      color: var(--primary);
+      transform: translateY(-3px);
+      background: rgba(255,51,102,0.2);
+      box-shadow: 0 5px 15px rgba(255,51,102,0.2);
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero h1 {
+        font-size: 3rem;
+      }
+      
+      .grid {
+        columns: 2;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 5%;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .grid {
+        columns: 1;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-hands-helping logo-icon"></i>
+      <span>MITS</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#programs">Our Programs</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+              <input type="checkbox" id="checkbox">
+              <div class="slider round">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+              </div>
+            </label>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Made In The Streets</h1>
+      <p>We exist to holistically serve and love street-connected children and reintegrate them back into a nurturing and safe environment.</p>
+      <div class="cta-buttons">
+        <a href="http://127.0.0.1:3002/in.index.html" class="btn btn-primary">Our Programs</a>
+        <a href="#contact" class="btn btn-outline">Get Involved</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="about-img">
+      <img src="images/af2b01_f043bbd834964d28b28ae64f7e583468~mv2.avif" alt="MITS Team">
+    </div>
+    <div class="about-content">
+      <h2>Our Mission</h2>
+      <p>Made In The Streets provides comprehensive care for street-connected children in Nairobi, Kenya. We offer education, vocational training, medical care, and spiritual guidance to help transform lives.</p>
+      <div class="skills">
+        <span class="skill-tag">Education</span>
+        <span class="skill-tag " >Vocational Training</span>
+        <a href="http://127.0.0.1:3002/index.html#programs"></a>
+        <span class="skill-tag">Counseling</span>
+        <span class="skill-tag">Medical Care</span>
+        <span class="skill-tag">Reintegration</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stat-item">
+      <div class="stat-number" data-count="500">0</div>
+      <div class="stat-label">Children Helped</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-count="15">0</div>
+      <div class="stat-label">Years of Service</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-count="200">0</div>
+      <div class="stat-label">Families Reunited</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-count="50">0</div>
+      <div class="stat-label">Staff Members</div>
+    </div>
+  </section>
+
+  <!-- Programs Section -->
+  <section id="programs" class="programs">
+    <div class="programs-content">
+      <h2 class="section-title">Our <span>Programs</span></h2>
+      <div class="programs-grid">
+        <!-- Program 1 - Education -->
+        <div class="program-card">
+          <img src="images/lc.png" alt="Education Program">
+          <div class="program-content">
+            <h3>Education Initiative</h3>
+            <p>Providing quality education to street children through our learning center.</p>
+            <a href="https://www.madeinthestreets.org/rehabilitation" class="program-link" target="_blank">Learn More →</a>
+          </div>
+        </div>
+        
+        <!-- Program 2 - Vocational Training -->
+        <div class="program-card">
+          <img src="images/sk.png" alt="Vocational Training">
+          <div class="program-content">
+            <h3>Vocational Training</h3>
+            <p>Teaching practical skills like carpentry, sewing, and computer skills.</p>
+            <a href="https://www.madeinthestreets.org/vocationaltrianingcenter" class="program-link" target="_blank">Learn More →</a>
+          </div>
+        </div>
+        
+        <!-- Program 3 - Reintegration -->
+        <div class="program-card">
+          <img src="images/rt.avif" alt="Reintegration">
+          <div class="program-content">
+            <h3>Family Reintegration</h3>
+            <p>Helping children reconnect with families and transition back home.</p>
+            <a href="https://www.madeinthestreets.org/reintegration" class="program-link" target="_blank">Learn More →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+<section id="gallery" class="gallery-section">
+  <div class="section-header">
+    <h2 class="section-title">Our <span>Gallery</span></h2>
+    <p class="section-subtitle">Moments that define our community</p>
+  </div>
+  
+  <div class="gallery-grid">
+    <!-- Photo 1 -->
+    <div class="gallery-card" data-photo="photo1">
+      <div class="image-container">
+        <img src="images/af2b01_d044feef8a9e4c1d8af160e97f8b5b45~mv2.avif" alt="MITS Activities" loading="lazy">
+        <div class="image-overlay">
+          <div class="image-info">
+            <h3>Classroom Learning</h3>
+            <p>Students engaged in educational activities</p>
+          </div>
+          <div class="image-actions">
+            <button class="action-btn like-btn" aria-label="Like photo">
+              <i class="fas fa-heart"></i> <span class="like-count">0</span>
+            </button>
+            <button class="action-btn comment-btn" aria-label="View comments">
+              <i class="fas fa-comment"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="comment-panel">
+        <div class="comments-list">
+          <!-- Comments will appear here -->
+        </div>
+        <form class="comment-form">
+          <input type="text" placeholder="Add a comment..." aria-label="Add a comment" required>
+          <button type="submit" class="submit-btn">Post</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Photo 2 -->
+    <div class="gallery-card" data-photo="photo2">
+      <div class="image-container">
+        <img src="images/af2b01_b06ae9e5016445f9963f93f700637066~mv2.avif" alt="Vocational Training" loading="lazy">
+        <div class="image-overlay">
+          <div class="image-info">
+            <h3>Catering Skills</h3>
+            <p>Students mastering catering skills</p>
+          </div>
+          <div class="image-actions">
+            <button class="action-btn like-btn" aria-label="Like photo">
+              <i class="fas fa-heart"></i> <span class="like-count">0</span>
+            </button>
+            <button class="action-btn comment-btn" aria-label="View comments">
+              <i class="fas fa-comment"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="comment-panel">
+        <div class="comments-list">
+          <!-- Comments will appear here -->
+        </div>
+        <form class="comment-form">
+          <input type="text" placeholder="Add a comment..." aria-label="Add a comment" required>
+          <button type="submit" class="submit-btn">Post</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Photo 3 -->
+    <div class="gallery-card" data-photo="photo3">
+      <div class="image-container">
+        <img src="images/Screenshot 2025-06-04 113931.png" alt="Community" loading="lazy">
+        <div class="image-overlay">
+          <div class="image-info">
+            <h3>Community Meal</h3>
+            <p>Sharing food and fellowship</p>
+          </div>
+          <div class="image-actions">
+            <button class="action-btn like-btn" aria-label="Like photo">
+              <i class="fas fa-heart"></i> <span class="like-count">0</span>
+            </button>
+            <button class="action-btn comment-btn" aria-label="View comments">
+              <i class="fas fa-comment"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="comment-panel">
+        <div class="comments-list">
+          <!-- Comments will appear here -->
+        </div>
+        <form class="comment-form">
+          <input type="text" placeholder="Add a comment..." aria-label="Add a comment" required>
+          <button type="submit" class="submit-btn">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gallery-section {
+    padding: 4rem 2rem;
+    background: #f8f9fa;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-title span {
+    color: #e74c3c;
+  }
+  
+  .section-subtitle {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .gallery-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  
+  .image-container {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .gallery-card:hover .image-container img {
+    transform: scale(1.05);
+  }
+  
+  .image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 1.5rem 1rem 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .gallery-card:hover .image-overlay {
+    opacity: 1;
+  }
+  
+  .image-info h3 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  
+  .image-info p {
+    margin: 0.3rem 0 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+  
+  .image-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .action-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .action-btn:hover {
+    background: rgba(255,255,255,0.3);
+  }
+  
+  .action-btn i {
+    font-size: 1rem;
+  }
+  
+  .like-count {
+    margin-left: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .comment-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    background: #f1f1f1;
+  }
+  
+  .gallery-card.active .comment-panel {
+    max-height: 300px;
+    padding: 1rem;
+  }
+  
+  .comments-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .comment-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .comment-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+  }
+  
+  .submit-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background: #c0392b;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle comment panels
+    document.querySelectorAll('.comment-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const card = this.closest('.gallery-card');
+        card.classList.toggle('active');
+      });
+    });
+    
+    // Like functionality
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const countElement = this.querySelector('.like-count');
+        let count = parseInt(countElement.textContent);
+        const isLiked = this.classList.contains('liked');
+        
+        if (isLiked) {
+          count--;
+          this.classList.remove('liked');
+          this.innerHTML = '<i class="fas fa-heart"></i> ' + count;
+        } else {
+          count++;
+          this.classList.add('liked');
+          this.innerHTML = '<i class="fas fa-heart" style="color:#e74c3c"></i> ' + count;
+       
+        }
+        
+        countElement.textContent = count;
+      });
+    });
+    
+    // Comment submission
+    document.querySelectorAll('.comment-form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const input = this.querySelector('input');
+        const comment = input.value.trim();
+        const commentsList = this.previousElementSibling;
+        
+        if (comment) {
+          const newComment = document.createElement('div');
+          newComment.className = 'comment';
+          newComment.textContent = comment;
+          commentsList.appendChild(newComment);
+          input.value = '';
+        }
+      });
+    });
+  });
+</script>
+       
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <h2 class="section-title">Get <span>Involved</span></h2>
+    <form class="contact-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+              <div class="form-group">
+        <label for="interest">How would you like to help?</label>
+        <select id="interest">
+          <option value="">Select an option</option>
+          <option value="volunteer">Volunteer</option>
+          <option value="donate">Donate</option>
+          <option value="partner">Partnership</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </section>
+
+
+
+
+
+<!-- Footer with linked navigation -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h3>About MITS</h3>
+        <ul>
+          <li><a href="https://www.madeinthestreets.org/about">Our Story</a></li>
+          <li><a href="https://www.madeinthestreets.org/our-team">Team</a></li>
+        
+          <li><a href="https://mitslegacy.org/">Financials</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Get Involved</h3>
+        <ul>
+          <li><a href="https://www.madeinthestreets.org/give-back">Volunteer</a></li>
+          <li><a href="https://gift.idonate.com/mits/madeinthestreetsdonation">Donate</a></li>
+                    <li><a href="https://www.madeinthestreets.org/our-mission">Pray</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>our Activities</h3>
+        <ul>
+          <li><a href="#gallery">Vocational</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="https://www.madeinthestreets.org/">Visit Us</a></li>
+        </ul>
+      </div>
+
+ <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="http://127.0.0.1:3002/in.index.html">View Gallery</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="http://127.0.0.1:3002/in.index.html">Visit Us</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="social-links">
+      <a href="https://www.facebook.com/groups/MITSkenya/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://x.com/i/flow/login?redirect_after_login=%2FStreetsMade" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/accounts/login/?next=%2Fmadeinthestreets%2F&source=omni_redirect" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/watch?v=aHWLlInhNkg" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="footer-bottom">
+      <p class="copyright">© 2023 Made In The Streets. All rights reserved.</p>
+      <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Add this to your existing CSS */
+  .footer-column a[href^="#"] {
+    position: relative;
+  }
+  
+  .footer-column a[href^="#"]:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: #e74c3c;
+  }
+</style>
+
+<script>
+  // Smooth scrolling for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: 'smooth'
+        });
+        
+        // Update URL without page jump
+        history.pushState(null, null, targetId);
+      }
+    });
+  });
+</script>
+
+
+
+
+
+
+<style>
+  footer {
+    background: #2c3e50;
+    color: white;
+    padding: 3rem 2rem 1rem;
+    position: relative;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-column h3 {
+    color: #ecf0f1;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .footer-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: #e74c3c;
+  }
+  
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-column li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .footer-column a {
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-column a:hover {
+    color: #e74c3c;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .social-links a {
+    color: white;
+    background: rgba(255,255,255,0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    background: #e74c3c;
+    transform: translateY(-3px);
+  }
+  
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .copyright {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .back-to-top {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .back-to-top:hover {
+    background: #c0392b;
+    transform: translateY(-3px);
+  }
+  
+  @media (max-width: 768px) {
+    .footer-bottom {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scroll to top
+  document.querySelector('.back-to-top').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Show/hide back-to-top button based on scroll position
+  window.addEventListener('scroll', function() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (window.pageYOffset > 300) {
+      backToTop.style.display = 'flex';
+    } else {
+      backToTop.style.display = 'none';
+    }
+  });
+</script>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Theme toggle functionality
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      
+      if (currentTheme === 'light') {
+        toggleSwitch.checked = true;
+      }
+    }
+
+    function switchTheme(e) {
+      if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Animate stats counters
+    const statItems = document.querySelectorAll('.stat-item');
+    
+    function animateCounters() {
+      statItems.forEach(item => {
+        const numberElement = item.querySelector('.stat-number');
+        const target = parseInt(numberElement.getAttribute('data-count'));
+        const duration = 2000; // 2 seconds
+        const step = target / (duration / 16); // 60fps
+        
+        let current = 0;
+        
+        const counter = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            clearInterval(counter);
+            current = target;
+          }
+          numberElement.textContent = Math.floor(current);
+        }, 16);
+      });
+    }
+
+    // Only animate when stats section is in view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(document.querySelector('.stats'));
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
